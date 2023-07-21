@@ -13,9 +13,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 //import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import com.kauailabs.navx.frc.AHRS;
@@ -47,6 +47,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // The gyro sensor
   public AHRS m_gyro  = new AHRS(Port.kMXP);
+  public Field2d m_field = new Field2d();
 
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
@@ -84,7 +85,9 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearRight.getPosition()
         });
 
-        SmartDashboard.putNumber("/debug/navx", -m_gyro.getAngle());
+        SmartDashboard.putNumber("Robot Heading", -m_gyro.getAngle());
+        SmartDashboard.putData("Field", m_field);
+        SmartDashboard.putData(m_gyro);
   }
 
   /**
