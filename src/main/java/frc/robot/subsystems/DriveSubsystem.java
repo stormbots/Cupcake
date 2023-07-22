@@ -88,6 +88,15 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Robot Heading", -m_gyro.getAngle());
         SmartDashboard.putData("Field", m_field);
         SmartDashboard.putData(m_gyro);
+        SmartDashboard.putNumber("Front Left Angle", m_frontLeft.getState().angle.getDegrees());
+        SmartDashboard.putNumber("Front Right Angle", m_frontRight.getState().angle.getDegrees());
+        SmartDashboard.putNumber("Rear Left Angle", m_rearLeft.getState().angle.getDegrees());
+        SmartDashboard.putNumber("rear Right Angle", m_rearRight.getState().angle.getDegrees());
+
+        SmartDashboard.putNumber("Front Left Position", m_frontLeft.m_turningEncoder.getPosition());
+        SmartDashboard.putNumber("Front Right Position", m_frontRight.m_turningEncoder.getPosition());
+        SmartDashboard.putNumber("Rear Left Position", m_rearLeft.m_turningEncoder.getPosition());
+        SmartDashboard.putNumber("Rear Right Position", m_rearRight.m_turningEncoder.getPosition());
   }
 
   /**
