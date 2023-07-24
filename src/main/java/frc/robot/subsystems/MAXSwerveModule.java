@@ -21,7 +21,7 @@ public class MAXSwerveModule {
   private final CANSparkMax m_drivingSparkMax;
   private final CANSparkMax m_turningSparkMax;
 
-  private final RelativeEncoder m_drivingEncoder;
+  public final RelativeEncoder m_drivingEncoder;
   public final AbsoluteEncoder m_turningEncoder;
 
   private final SparkMaxPIDController m_drivingPIDController;

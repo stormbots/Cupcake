@@ -87,16 +87,21 @@ public class DriveSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Robot Heading", -m_gyro.getAngle());
         SmartDashboard.putData("Field", m_field);
-        SmartDashboard.putData(m_gyro);
-        SmartDashboard.putNumber("Front Left Angle", m_frontLeft.getState().angle.getDegrees());
-        SmartDashboard.putNumber("Front Right Angle", m_frontRight.getState().angle.getDegrees());
-        SmartDashboard.putNumber("Rear Left Angle", m_rearLeft.getState().angle.getDegrees());
-        SmartDashboard.putNumber("rear Right Angle", m_rearRight.getState().angle.getDegrees());
+        SmartDashboard.putData("NavX Raw", m_gyro);
+        SmartDashboard.putNumber("FL Angle", m_frontLeft.getState().angle.getDegrees());
+        SmartDashboard.putNumber("FR Angle", m_frontRight.getState().angle.getDegrees());
+        SmartDashboard.putNumber("RL Angle", m_rearLeft.getState().angle.getDegrees());
+        SmartDashboard.putNumber("RR Angle", m_rearRight.getState().angle.getDegrees());
 
-        SmartDashboard.putNumber("Front Left Position", m_frontLeft.m_turningEncoder.getPosition());
-        SmartDashboard.putNumber("Front Right Position", m_frontRight.m_turningEncoder.getPosition());
-        SmartDashboard.putNumber("Rear Left Position", m_rearLeft.m_turningEncoder.getPosition());
-        SmartDashboard.putNumber("Rear Right Position", m_rearRight.m_turningEncoder.getPosition());
+        SmartDashboard.putNumber("FL Position", m_frontLeft.m_drivingEncoder.getPosition());
+        SmartDashboard.putNumber("FR Position", m_frontRight.m_drivingEncoder.getPosition());
+        SmartDashboard.putNumber("RL Position", m_rearLeft.m_drivingEncoder.getPosition());
+        SmartDashboard.putNumber("RR Position", m_rearRight.m_drivingEncoder.getPosition());
+
+        SmartDashboard.putNumber("FL Velocity", m_frontLeft.m_drivingEncoder.getVelocity());
+        SmartDashboard.putNumber("FR Velocity", m_frontRight.m_drivingEncoder.getVelocity());
+        SmartDashboard.putNumber("RL Velocity", m_rearLeft.m_drivingEncoder.getVelocity());
+        SmartDashboard.putNumber("RR Velocity", m_rearRight.m_drivingEncoder.getVelocity());
   }
 
   /**
