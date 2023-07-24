@@ -1,4 +1,4 @@
-# MAXSwerve Java Template v2023.1
+# MAXSwerve Java Template With NavX MXP v2023.1
 
 See [the online changelog](https://github.com/REVrobotics/MAXSwerve-Java-Template/blob/main/CHANGELOG.md) for information about updates to the template that may have been released since you created your project.
 
@@ -6,7 +6,7 @@ See [the online changelog](https://github.com/REVrobotics/MAXSwerve-Java-Templat
 
 A template project for an FRC swerve drivetrain that uses REV MAXSwerve Modules.
 
-Note that this is meant to be used with a drivetrain composed of four MAXSwerve Modules, each configured with two SPARKS MAX, a NEO as the driving motor, a NEO 550 as the turning motor, and a REV Through Bore Encoder as the absolute turning encoder.
+Note that this is meant to be used with a drivetrain composed of four MAXSwerve Modules, each configured with two SPARKS MAX, a NEO as the driving motor, a NEO 550 as the turning motor, a REV Through Bore Encoder as the absolute turning encoder, and a NavX2 MXP as the IMU.
 
 To get started, make sure you have calibrated the zero offsets for the absolute encoders in the Hardware Client using the `Absolute Encoder` tab under the associated turning SPARK MAX devices.
 
@@ -14,6 +14,7 @@ To get started, make sure you have calibrated the zero offsets for the absolute 
 
 * SPARK MAX Firmware v1.6.2 - Adds features that are required for swerve
 * REVLib v2023.1.2 - Includes APIs for the new firmware features
+* NavX v2023.0.3
 
 ## Configuration
 
