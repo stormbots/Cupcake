@@ -271,13 +271,4 @@ public class DriveSubsystem extends SubsystemBase {
   public double getHeading() {
     return Rotation2d.fromDegrees(-m_gyro.getAngle()).getDegrees();
   }
-
-  /**
-   * Returns the turn rate of the robot.
-   *
-   * @return The turn rate of the robot, in degrees per second
-   */
-  public double getTurnRate() {
-    return -m_gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-  }
 }
