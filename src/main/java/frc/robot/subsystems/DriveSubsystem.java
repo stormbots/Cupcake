@@ -88,6 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Robot Heading", -m_gyro.getAngle());
         SmartDashboard.putData("Field", m_field);
         SmartDashboard.putData("NavX Raw", m_gyro);
+        
         SmartDashboard.putNumber("FL Angle", m_frontLeft.getState().angle.getDegrees());
         SmartDashboard.putNumber("FR Angle", m_frontRight.getState().angle.getDegrees());
         SmartDashboard.putNumber("RL Angle", m_rearLeft.getState().angle.getDegrees());
