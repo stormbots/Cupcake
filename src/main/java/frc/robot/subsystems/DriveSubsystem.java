@@ -102,6 +102,21 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("FR Velocity", m_frontRight.m_drivingEncoder.getVelocity());
         SmartDashboard.putNumber("RL Velocity", m_rearLeft.m_drivingEncoder.getVelocity());
         SmartDashboard.putNumber("RR Velocity", m_rearRight.m_drivingEncoder.getVelocity());
+
+        SmartDashboard.putNumber("FLD Current", m_frontLeft.m_drivingSparkMax.getOutputCurrent());
+        SmartDashboard.putNumber("FRD Current", m_frontRight.m_drivingSparkMax.getOutputCurrent());
+        SmartDashboard.putNumber("RLD Current", m_rearLeft.m_drivingSparkMax.getOutputCurrent());
+        SmartDashboard.putNumber("RRD Current", m_rearRight.m_drivingSparkMax.getOutputCurrent());
+
+        SmartDashboard.putNumber("FLD Output", m_frontLeft.m_drivingSparkMax.getAppliedOutput());
+        SmartDashboard.putNumber("FRD Output", m_frontRight.m_drivingSparkMax.getAppliedOutput());
+        SmartDashboard.putNumber("RLD Output", m_rearLeft.m_drivingSparkMax.getAppliedOutput());
+        SmartDashboard.putNumber("RRD Output", m_rearRight.m_drivingSparkMax.getAppliedOutput());
+
+        SmartDashboard.putNumber("FLD Temp", m_frontLeft.m_drivingSparkMax.getMotorTemperature());
+        SmartDashboard.putNumber("FRD Temp", m_frontRight.m_drivingSparkMax.getMotorTemperature());
+        SmartDashboard.putNumber("RLD Temp", m_rearLeft.m_drivingSparkMax.getMotorTemperature());
+        SmartDashboard.putNumber("RRD Temp", m_rearRight.m_drivingSparkMax.getMotorTemperature());
   }
 
   /**
