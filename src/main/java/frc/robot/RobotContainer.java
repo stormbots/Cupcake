@@ -77,6 +77,19 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             ()-> m_robotDrive.zeroHeading(),
             m_robotDrive));
+
+    new JoystickButton(m_driverController, 3)
+        .whileTrue(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        // RobotRelative below has not been tested
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(Math.pow(m_driverController.getLeftY(), 2)*Math.signum(m_driverController.getLeftY()), OIConstants.kDriveDeadband), //squaring inputs to make robot more controllable
+                -MathUtil.applyDeadband(Math.pow(m_driverController.getLeftX(), 2)*Math.signum(m_driverController.getLeftX()), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftTriggerAxis(), OIConstants.kDriveDeadband),
+                false, true),
+            m_robotDrive));
   }
 
   /**
