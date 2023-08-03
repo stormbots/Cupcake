@@ -100,18 +100,9 @@ public class RobotContainer {
             m_robotDrive));
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // Run path following command, then stop at the end.
-    return FollowTrajectoryCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, true));
-  }
 
   // This will load the file "Example Path.path" and generate it with a max velocity of 4 m/s and a max acceleration of 3 m/s^2
-PathPlannerTrajectory examplePath = PathPlanner.loadPath("Example Path", new PathConstraints(2, 1));
+
 
 // This trajectory can then be passed to a path follower such as a PPSwerveControllerCommand
 // Or the path can be sampled at a given point in time for custom path following
@@ -137,4 +128,13 @@ public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFir
         )
     );
 }
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // Run path following command, then stop at the end.
+    return FollowTrajectoryCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, true));
+  }
 }
