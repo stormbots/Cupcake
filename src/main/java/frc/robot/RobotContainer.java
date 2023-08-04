@@ -86,7 +86,7 @@ public class RobotContainer {
             ()-> m_robotDrive.zeroHeading(),
             m_robotDrive));
 
-    new JoystickButton(m_driverController, 7)
+    new JoystickButton(m_driverController, 6)
         .whileTrue(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
@@ -101,40 +101,49 @@ public class RobotContainer {
   }
 
 
-  // This will load the file "Example Path.path" and generate it with a max velocity of 4 m/s and a max acceleration of 3 m/s^2
-
-
-// This trajectory can then be passed to a path follower such as a PPSwerveControllerCommand
-// Or the path can be sampled at a given point in time for custom path following
-
-public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
-   return new SequentialCommandGroup(
-        new InstantCommand(() -> {
-          // Reset odometry for the first path you run during auto
-          if(isFirstPath){
-              m_robotDrive.resetOdometry(traj.getInitialHolonomicPose());
-          }
-        }),
-        new PPSwerveControllerCommand(
-            traj, 
-            m_robotDrive::getPose, // Pose supplier
-            DriveConstants.kDriveKinematics, // SwerveDriveKinematics
-            new PIDController(AutoConstants.kPXController, 0, 0), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-            new PIDController(AutoConstants.kPYController, 0, 0), // Y controller (usually the same values as X controller)
-            new PIDController(AutoConstants.kPThetaController, 0, 0), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-            m_robotDrive::setModuleStates, // Module states consumer
-            true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-            m_robotDrive // Requires this drive subsystem
-        )
-    );
-}
-  /**
+ /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    // Create config for trajectory
+    TrajectoryConfig config = new TrajectoryConfig(
+        AutoConstants.kMaxSpeedMetersPerSecond,
+        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        // Add kinematics to ensure max speed is actually obeyed
+        .setKinematics(DriveConstants.kDriveKinematics);
+
+    // An example trajectory to follow. All units in meters.
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+        // Start at the origin facing the +X direction
+        new Pose2d(0, 0, new Rotation2d(0)),
+        // Pass through these two interior waypoints, making an 's' curve path
+        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        // End 3 meters straight ahead of where we started, facing forward
+        new Pose2d(3,0, new Rotation2d(90)),
+        config);
+
+    var thetaController = new ProfiledPIDController(
+        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
+        exampleTrajectory,
+        m_robotDrive::getPose, // Functional interface to feed supplier
+        DriveConstants.kDriveKinematics,
+
+        // Position controllers
+        new PIDController(AutoConstants.kPXController, 0, 0),
+        new PIDController(AutoConstants.kPYController, 0, 0),
+        thetaController,
+        m_robotDrive::setModuleStates,
+        m_robotDrive);
+
+    // Reset odometry to the starting pose of the trajectory.
+    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+
     // Run path following command, then stop at the end.
-    return FollowTrajectoryCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, true));
+    return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, false));
   }
 }
