@@ -30,7 +30,7 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = 4.2; //4.40
     public static final double kMaxAngularSpeed = 1.25 * Math.PI; //1.5 // radians per second
 
-    public static final double kDirectionSlewRate = 1.4;//1.2 // radians per second
+    public static final double kDirectionSlewRate = 2.2;//1.2 // radians per second
     public static final double kMagnitudeSlewRate = 2; // percent per second (1 = 100%)
     public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
@@ -93,10 +93,10 @@ public final class Constants {
     public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
     public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-    public static final double kDrivingP = 0.04;
+    public static final double kDrivingP = 3.9294E-08; //default is 0.04
     public static final double kDrivingI = 0;
     public static final double kDrivingD = 0;
-    public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
+    public static final double kDrivingFF = 1 * 0.75 / kDriveWheelFreeSpeedRps;
     public static final double kDrivingMinOutput = -1;
     public static final double kDrivingMaxOutput = 1;
 
@@ -125,7 +125,7 @@ public final class Constants {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-    public static final double kPXController = 1;
+    public static final double kPXController = 3.9294E-08;
     public static final double kPYController = 1;
     public static final double kPThetaController = 1;
 
@@ -139,6 +139,6 @@ public final class Constants {
   }
 
   public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;
+    public static final double kFreeSpeedRpm = 4.650769230860   / ModuleConstants.kWheelCircumferenceMeters; //5676
   }
 }

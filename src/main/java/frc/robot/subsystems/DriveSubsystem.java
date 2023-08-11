@@ -12,10 +12,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import frc.robot.RobotContainer;
 
 //import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import com.kauailabs.navx.frc.AHRS;
@@ -87,6 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Robot Heading", -m_gyro.getAngle());
         SmartDashboard.putData("Field", m_field);
+        m_field.setRobotPose(m_odometry.getPoseMeters());
         SmartDashboard.putData("NavX Raw", m_gyro);
         
         SmartDashboard.putNumber("FL Angle", m_frontLeft.getState().angle.getDegrees());

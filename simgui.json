@@ -16,13 +16,18 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/NavX Raw": "Gyro",
       "/SmartDashboard/navX-Sensor[1]": "Gyro"
     }
   },
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
+        "Auto Mode": {
+          "open": true
+        },
         "open": true
       }
     }
