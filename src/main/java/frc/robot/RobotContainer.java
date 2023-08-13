@@ -32,6 +32,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.IntakeandWristConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Wrist;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -45,6 +46,8 @@ public class RobotContainer {
 
     // The robot's subsystems
     private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    public Intake intake = new Intake();
+    public Wrist wrist = new Wrist();
 
     // The driver's controller
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -75,6 +78,14 @@ public class RobotContainer {
                                         OIConstants.kDriveDeadband),
                                 true, true),
                         m_robotDrive));
+
+        intake.setDefaultCommand(
+                new InstantCommand(() ->
+                        { 
+                                wrist.setWristTarget(IntakeandWristConstants.kStowAngle);
+                                Intake.intakeMotor.set(0.1);
+                        })
+        );
     }
     /**
      * Use this method to define your button->command mappings. Buttons can be
@@ -143,26 +154,27 @@ public class RobotContainer {
                                 m_robotDrive));
 
 
-                                //intake in and wrist down
+                                //intake and wrist down
         new JoystickButton(m_driverController, 8)
                 .whileTrue(
-                        new InstantCommand(() -> Intake.intakeMotor.set(1), 
-                        Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMinAngle, CANSparkMax.ControlType.kPosition))
-                );
-        new JoystickButton(m_driverController, 8)
-                .whileFalse(
-                        new InstantCommand(() -> Intake.intakeMotor.set(0.1),
-                        Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMaxAngle, CANSparkMax.ControlType.kPosition))
+                        new InstantCommand(() ->
+                        { 
+                                wrist.setWristTarget(IntakeandWristConstants.kDeployAngle);
+                                Intake.intakeMotor.set(1);
+                        })
                 );
 
-                //intake out
+                //shoot cube
         new JoystickButton(m_driverController, 9)
                 .whileTrue(
-                        new InstantCommand(() -> Intake.intakeMotor.set(-1))
-                );
-        new JoystickButton(m_driverController, 9)
-                .whileFalse(
-                        new InstantCommand(() -> Intake.intakeMotor.set(0))
+                        new InstantCommand(() ->
+                        { 
+                                wrist.setWristTarget(IntakeandWristConstants.kShootAngle);
+                                        //making sure the wrist is at the right angle before shooting
+                                if ((IntakeandWristConstants.kShootAngle + 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle - 5)/360) {
+                                        Intake.intakeMotor.set(-1);
+                                }
+                        })
                 );
     }
 

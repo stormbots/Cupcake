@@ -123,8 +123,8 @@ public final class Constants {
 
     //wrist
     public static final int kWristMotorCanId = 6;
-    public static float kMinAngle=0; 
-    public static float kMaxAngle=140; 
+    public static float kDeployAngle=0; 
+    public static float kStowAngle=140; 
     public static float kShootAngle=90;
     public static boolean kReverseMotor=false;
     public static double kAbsoluteAngleOffset=0;
