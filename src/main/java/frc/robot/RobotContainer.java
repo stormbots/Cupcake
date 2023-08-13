@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -27,7 +29,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.IntakeandWristConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.Intake;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -135,6 +141,38 @@ public class RobotContainer {
                                                 OIConstants.kDriveDeadband),
                                         true, true),
                                 m_robotDrive));
+
+
+                                //intake in
+        new JoystickButton(m_driverController, 8)
+                .whileTrue(
+                        new InstantCommand(() -> Intake.intakeMotor.set(1))
+                );
+        new JoystickButton(m_driverController, 8)
+                .whileFalse(
+                        new InstantCommand(() -> Intake.intakeMotor.set(0))
+                );
+
+                //intake out
+        new JoystickButton(m_driverController, 9)
+                .whileTrue(
+                        new InstantCommand(() -> Intake.intakeMotor.set(-1))
+                );
+        new JoystickButton(m_driverController, 9)
+                .whileFalse(
+                        new InstantCommand(() -> Intake.intakeMotor.set(0))
+                );
+
+                //wrist up
+        new JoystickButton(m_driverController, 10)
+                .whileTrue(
+                        new InstantCommand(() -> Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMaxAngle, CANSparkMax.ControlType.kPosition))
+                );
+                //wrist down
+        new JoystickButton(m_driverController, 11)
+                .whileTrue(
+                        new InstantCommand(() -> Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMinAngle, CANSparkMax.ControlType.kPosition))
+                );
     }
 
     /**
