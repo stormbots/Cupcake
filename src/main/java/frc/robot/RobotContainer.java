@@ -6,8 +6,6 @@ package frc.robot;
 
 import java.util.List;
 
-import javax.lang.model.util.ElementScanner14;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -20,10 +18,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
@@ -33,8 +29,6 @@ import frc.robot.Constants.IntakeandWristConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -79,10 +73,16 @@ public class RobotContainer {
                                 true, true),
                         m_robotDrive));
 
-        intake.setDefaultCommand(
+        wrist.setDefaultCommand(
                 new InstantCommand(() ->
                         { 
                                 wrist.setWristTarget(IntakeandWristConstants.kStowAngle);
+                        })
+        );
+
+        intake.setDefaultCommand(
+                new InstantCommand(() ->
+                        {
                                 Intake.intakeMotor.set(0.1);
                         })
         );
@@ -171,7 +171,7 @@ public class RobotContainer {
                         { 
                                 wrist.setWristTarget(IntakeandWristConstants.kShootAngle);
                                         //making sure the wrist is at the right angle before shooting
-                                if ((IntakeandWristConstants.kShootAngle + 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle - 5)/360) {
+                                if ((IntakeandWristConstants.kShootAngle - 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 5)/360) {
                                         Intake.intakeMotor.set(-1);
                                 }
                         })
