@@ -25,7 +25,7 @@ import frc.robot.Constants.IntakeandWristConstants;
 public class Intake {
     
     public static CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeandWristConstants.kIntakeMotorCanId, MotorType.kBrushless);
-    public CANSparkMax wristMotor = new CANSparkMax(Constants.IntakeandWristConstants.kWristMotorCanId, MotorType.kBrushless);
+    public static CANSparkMax wristMotor = new CANSparkMax(Constants.IntakeandWristConstants.kWristMotorCanId, MotorType.kBrushless);
 
     public final AbsoluteEncoder m_wristAbsoluteEncoder;
     public final SparkMaxPIDController m_wristPIDController;

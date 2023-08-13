@@ -143,14 +143,16 @@ public class RobotContainer {
                                 m_robotDrive));
 
 
-                                //intake in
+                                //intake in and wrist down
         new JoystickButton(m_driverController, 8)
                 .whileTrue(
-                        new InstantCommand(() -> Intake.intakeMotor.set(1))
+                        new InstantCommand(() -> Intake.intakeMotor.set(1), 
+                        Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMinAngle, CANSparkMax.ControlType.kPosition))
                 );
         new JoystickButton(m_driverController, 8)
                 .whileFalse(
-                        new InstantCommand(() -> Intake.intakeMotor.set(0))
+                        new InstantCommand(() -> Intake.intakeMotor.set(0.1),
+                        Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMaxAngle, CANSparkMax.ControlType.kPosition))
                 );
 
                 //intake out
@@ -161,17 +163,6 @@ public class RobotContainer {
         new JoystickButton(m_driverController, 9)
                 .whileFalse(
                         new InstantCommand(() -> Intake.intakeMotor.set(0))
-                );
-
-                //wrist up
-        new JoystickButton(m_driverController, 10)
-                .whileTrue(
-                        new InstantCommand(() -> Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMaxAngle, CANSparkMax.ControlType.kPosition))
-                );
-                //wrist down
-        new JoystickButton(m_driverController, 11)
-                .whileTrue(
-                        new InstantCommand(() -> Intake.m_wristPIDController.setReference(IntakeandWristConstants.kMinAngle, CANSparkMax.ControlType.kPosition))
                 );
     }
 

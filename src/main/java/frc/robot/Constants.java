@@ -115,25 +115,22 @@ public final class Constants {
   }
 
   public static final class IntakeandWristConstants {
+    //intake
     public static final int kIntakeMotorCanId = 5;
-    public static int kCurrentLimitFree=25;
+    public static int kCurrentLimitFree=20;
     public static int kCurrentLimitStall=18;
     public static boolean kIntakeMotorInverted=false;
 
     //wrist
     public static final int kWristMotorCanId = 6;
-    public static float kMinAngle=-95; 
-    public static float kMaxAngle=43; 
-    public static double kMinRotations=-75; 
-    public static double kMaxRotations=10;
-    public static double kMaxRangeOfMotion = kMaxRotations-kMinRotations;
+    public static float kMinAngle=0; 
+    public static float kMaxAngle=140; 
+    public static float kShootAngle=90;
     public static boolean kReverseMotor=false;
     public static double kAbsoluteAngleOffset=0;
-    public static double kFFCos=0.042*12;
     public static double kP=1/70.0;
     public static double kI=0;
     public static double kD=0;
-    public static double kAbsoluteAngleDistancePerRotation=360;
   }
 
   public static final class OIConstants {
