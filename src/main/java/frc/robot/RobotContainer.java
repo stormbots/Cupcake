@@ -83,7 +83,7 @@ public class RobotContainer {
         intake.setDefaultCommand(
                 new InstantCommand(() ->
                         {
-                                Intake.intakeMotor.set(0.1);
+                                intake.IntakeIdle();
                         })
         );
     }
@@ -154,13 +154,13 @@ public class RobotContainer {
                                 m_robotDrive));
 
 
-                                //intake and wrist down
+                                //intake in and wrist down
         new JoystickButton(m_driverController, 8)
                 .whileTrue(
                         new InstantCommand(() ->
                         { 
                                 wrist.setWristTarget(IntakeandWristConstants.kDeployAngle);
-                                Intake.intakeMotor.set(1);
+                                intake.IntakeIn();
                         })
                 );
 
@@ -172,7 +172,7 @@ public class RobotContainer {
                                 wrist.setWristTarget(IntakeandWristConstants.kShootAngle);
                                         //making sure the wrist is at the right angle before shooting
                                 if ((IntakeandWristConstants.kShootAngle - 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 5)/360) {
-                                        Intake.intakeMotor.set(-1);
+                                        intake.IntakeOut();
                                 }
                         })
                 );
