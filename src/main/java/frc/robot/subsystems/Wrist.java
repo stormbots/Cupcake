@@ -26,15 +26,19 @@ public class Wrist extends SubsystemBase{
         m_wristAbsoluteEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
         m_wristAbsoluteEncoder.setZeroOffset(IntakeandWristConstants.kAbsoluteAngleOffset);
         m_wristPIDController.setFeedbackDevice(m_wristAbsoluteEncoder);
+
+        //might not need this just here for easy troubleshooting
+       // m_wristAbsoluteEncoder.setPositionConversionFactor(IntakeandWristConstants.kConversionFactor);
+
         wristMotor.setIdleMode(IdleMode.kBrake);
-        wristMotor.setSmartCurrentLimit(12,15);
-        wristMotor.setInverted(IntakeandWristConstants.kReverseMotor);
+        wristMotor.setSmartCurrentLimit(IntakeandWristConstants.kWristCurrentLimitStall,IntakeandWristConstants.kWristCurrentLimitFree);
+        wristMotor.setInverted(IntakeandWristConstants.kWristMotorInverted);
         wristMotor.setSoftLimit(SoftLimitDirection.kForward, IntakeandWristConstants.kStowAngle); 
         wristMotor.setSoftLimit(SoftLimitDirection.kReverse, IntakeandWristConstants.kDeployAngle); 
         wristMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         wristMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
         wristMotor.setClosedLoopRampRate(0.05);
-        wristMotor.setOpenLoopRampRate(0.05);
+        wristMotor.setOpenLoopRampRate(0.1);
 
         wristMotor.getPIDController().setP(IntakeandWristConstants.kP);
         wristMotor.getPIDController().setI(IntakeandWristConstants.kI);
