@@ -9,7 +9,7 @@ import java.util.List;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -18,7 +18,8 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -46,7 +47,7 @@ public class RobotContainer {
     // The driver's controller
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
-    private SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(AutoConstants.kS, AutoConstants.kV, AutoConstants.kA);
+    //private SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(AutoConstants.kS, AutoConstants.kV, AutoConstants.kA);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -74,18 +75,11 @@ public class RobotContainer {
                         m_robotDrive));
 
         wrist.setDefaultCommand(
-                new InstantCommand(() ->
-                        { 
-                                wrist.setWristTarget(IntakeandWristConstants.kStowAngle);
-                        })
-        );
+                wrist.getSetWristTargetCommand(IntakeandWristConstants.kStowAngle));
 
         intake.setDefaultCommand(
-                new InstantCommand(() ->
-                        {
-                                intake.IntakeIdle();
-                        })
-        );
+                new RunCommand( () -> intake.IntakeIdle(),
+                intake));
     }
     /**
      * Use this method to define your button->command mappings. Buttons can be
@@ -97,17 +91,20 @@ public class RobotContainer {
      * {@link JoystickButton}.
      */
     private void configureButtonBindings() {
+                //X button
         new JoystickButton(m_driverController, 1)
                 .whileTrue(new RunCommand(
                         () -> m_robotDrive.setX(),
                         m_robotDrive));
 
-        new JoystickButton(m_driverController, 2)
+                        //back button
+        new JoystickButton(m_driverController, 10)
                 .whileTrue(new RunCommand(
                         () -> m_robotDrive.zeroHeading(),
                         m_robotDrive));
 
-        new JoystickButton(m_driverController, 6)
+                        //right trigger
+        new JoystickButton(m_driverController, 8)
                 .whileTrue(
                         // The left stick controls translation of the robot.
                         // Turning is controlled by the X axis of the right stick.
@@ -129,6 +126,7 @@ public class RobotContainer {
                                         false, true),
                                 m_robotDrive));
 
+                                //left trigger
         new JoystickButton(m_driverController, 7)
                 .whileTrue(
                         // The left stick controls translation of the robot.
@@ -154,28 +152,18 @@ public class RobotContainer {
                                 m_robotDrive));
 
 
-                                //intake in and wrist down
-        new JoystickButton(m_driverController, 8)
+                                //intake in and wrist down         left bumper
+        new JoystickButton(m_driverController, 5)
                 .whileTrue(
-                        new InstantCommand(() ->
-                        { 
-                                wrist.setWristTarget(IntakeandWristConstants.kDeployAngle);
-                                intake.IntakeIn();
-                        })
+                        new ParallelCommandGroup(wrist.getSetWristTargetCommand(IntakeandWristConstants.kDeployAngle), intake.getIntakeInCommand())
                 );
 
-                //shoot cube
-        new JoystickButton(m_driverController, 9)
+                //shoot cube      right bumper
+        new JoystickButton(m_driverController, 6)
                 .whileTrue(
-                        new InstantCommand(() ->
-                        { 
-                                wrist.setWristTarget(IntakeandWristConstants.kShootAngle);
-                                        //making sure the wrist is at the right angle before shooting
-                                if ((IntakeandWristConstants.kShootAngle - 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 5)/360) {
-                                        intake.IntakeOut();
-                                }
-                        })
+                        new ParallelCommandGroup(wrist.getSetWristTargetCommand(IntakeandWristConstants.kShootAngle), intake.getShootCubeCommand(wrist))
                 );
+
     }
 
     /**
@@ -200,7 +188,6 @@ public class RobotContainer {
         // End 3 meters straight ahead of where we started, facing forward
         new Pose2d(3,0, new Rotation2d(90)),
         config);
-
 
 
         Trajectory CubeDrop = TrajectoryGenerator.generateTrajectory(
@@ -241,7 +228,7 @@ public class RobotContainer {
         m_robotDrive);
 
         // // Reset odometry to the starting pose of the trajectory.
-        m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+        m_robotDrive.resetOdometry(CubeDrop.getInitialPose());
 
         // This will load the file "Example Path.path" and generate it with a max
         // velocity of 4 m/s and a max acceleration of 3 m/s^2

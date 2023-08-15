@@ -134,11 +134,13 @@ public final class Constants {
     public static double kP=1/70.0;
     public static double kI=0;
     public static double kD=0;
+    public static final double kWristMinOutput = -0.5;
+    public static final double kWristMaxOutput = 0.5;
   }
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.025;
+    public static final double kDriveDeadband = 0.020;
   }
 
   public static final class AutoConstants {

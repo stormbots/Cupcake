@@ -7,6 +7,9 @@ package frc.robot;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -38,6 +41,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     m_robotContainer = new RobotContainer();
+
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+    camera.setResolution(640, 480);
 
   }
 

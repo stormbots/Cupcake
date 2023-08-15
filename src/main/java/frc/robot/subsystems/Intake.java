@@ -3,7 +3,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeandWristConstants;
 
@@ -39,5 +41,27 @@ public class Intake extends SubsystemBase {
         return this.runOnce(() -> {
             intakeMotor.set(0.2);
         });
+    }
+
+    public Command getShootCubeCommand(Wrist wrist) {
+       return new RunCommand(() ->
+                        { 
+                                        //making sure the wrist is at the right angle before shooting
+                                if ((IntakeandWristConstants.kShootAngle - 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 5)/360) {
+                                        this.IntakeOut();
+                                }
+                                else {
+                                        this.IntakeIdle();
+                                }
+                        },
+                        this);
+    }
+
+    public Command getIntakeInCommand() {
+        return new RunCommand(() ->
+                        { 
+                                this.IntakeIn();
+                        },
+                        this);
     }
 }
