@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
         intakeMotor.setInverted(IntakeandWristConstants.kIntakeMotorInverted);
         intakeMotor.setIdleMode(IdleMode.kBrake);
         intakeMotor.setSmartCurrentLimit(IntakeandWristConstants.kIntakeCurrentLimitStall, IntakeandWristConstants.kIntakeCurrentLimitFree);
-        intakeMotor.setOpenLoopRampRate(0.08);
+        intakeMotor.setOpenLoopRampRate(0.01);
 
         intakeMotor.burnFlash();
     }

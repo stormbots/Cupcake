@@ -126,7 +126,7 @@ public final class Constants {
     public static float kDeployAngle=0; 
     public static float kStowAngle=140; 
     public static float kShootAngle=70;
-    public static double kConversionFactor= 360/((9/1)*(7/1)*(1.4/1));
+    public static double kConversionFactor= 360/((9/1)*(7/1));
     public static int kWristCurrentLimitFree=18;
     public static int kWristCurrentLimitStall=15;
     public static boolean kWristMotorInverted=false;

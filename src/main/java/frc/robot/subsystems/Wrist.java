@@ -40,8 +40,8 @@ public class Wrist extends SubsystemBase{
         wristMotor.setSoftLimit(SoftLimitDirection.kReverse, IntakeandWristConstants.kDeployAngle); 
         wristMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
         wristMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        wristMotor.setClosedLoopRampRate(0.1);
-        wristMotor.setOpenLoopRampRate(0.15);
+        wristMotor.setClosedLoopRampRate(0.15);
+        wristMotor.setOpenLoopRampRate(0.25);
 
         m_wristPIDController.setP(IntakeandWristConstants.kP);
         m_wristPIDController.setI(IntakeandWristConstants.kI);
@@ -69,5 +69,4 @@ public class Wrist extends SubsystemBase{
                     this.setWristTarget(target), 
                     this);
     }
-
 }
