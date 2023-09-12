@@ -124,18 +124,18 @@ public final class Constants {
     //wrist
     public static final int kWristMotorCanId = 6;
     public static float kDeployAngle=0; 
-    public static float kStowAngle=140; 
+    public static float kStowAngle=125; 
     public static float kShootAngle=70;
     public static double kConversionFactor= 360/((9/1)*(7/1));
-    public static int kWristCurrentLimitFree=18;
-    public static int kWristCurrentLimitStall=15;
+    public static int kWristCurrentLimitFree=25;
+    public static int kWristCurrentLimitStall=20;
     public static boolean kWristMotorInverted=false;
-    public static double kAbsoluteAngleOffset=0;
-    public static double kP=1/70.0;
+    public static double kAbsoluteAngleOffset=0.572;
+    public static double kP=1;
     public static double kI=0;
     public static double kD=0;
-    public static final double kWristMinOutput = -0.5;
-    public static final double kWristMaxOutput = 0.5;
+    public static final double kWristMinOutput = -1;
+    public static final double kWristMaxOutput = 1;
   }
 
   public static final class OIConstants {
