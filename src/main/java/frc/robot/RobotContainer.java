@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -46,7 +47,6 @@ public class RobotContainer {
 
     // The driver's controller
     XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-
     //private SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(AutoConstants.kS, AutoConstants.kV, AutoConstants.kA);
 
     /**
@@ -75,7 +75,7 @@ public class RobotContainer {
                         m_robotDrive));
 
         wrist.setDefaultCommand(
-                wrist.getSetWristTargetCommand(IntakeandWristConstants.kStowAngle));
+                wrist.setWristTarget(IntakeandWristConstants.kStowAngle));
 
         intake.setDefaultCommand(
                 new RunCommand( () -> intake.IntakeIdle(),
@@ -155,13 +155,13 @@ public class RobotContainer {
                                 //intake in and wrist down         left bumper
         new JoystickButton(m_driverController, 5)
                 .whileTrue(
-                        new ParallelCommandGroup(wrist.getSetWristTargetCommand(IntakeandWristConstants.kDeployAngle), intake.getIntakeInCommand())
+                        new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn())
                 );
 
                 //shoot cube      right bumper
         new JoystickButton(m_driverController, 6)
                 .whileTrue(
-                        new ParallelCommandGroup(wrist.getSetWristTargetCommand(IntakeandWristConstants.kShootAngle), intake.getShootCubeCommand(wrist))
+                        new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kShootAngle), intake.getShootCubeCommand(wrist))
                 );
 
     }

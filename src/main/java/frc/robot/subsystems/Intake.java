@@ -26,19 +26,19 @@ public class Intake extends SubsystemBase {
     }
 
     public CommandBase IntakeIn() {
-        return this.runOnce(() -> {
+        return this.run(() -> {
             intakeMotor.set(1);
         });
     }
 
     public CommandBase IntakeOut() {
-        return this.runOnce(() -> {
+        return this.run(() -> {
             intakeMotor.set(-1);
         });
     }
 
     public CommandBase IntakeIdle() {
-        return this.runOnce(() -> {
+        return this.run(() -> {
             intakeMotor.set(0.2);
         });
     }
@@ -47,20 +47,12 @@ public class Intake extends SubsystemBase {
        return new RunCommand(() ->
                         { 
                                         //making sure the wrist is at the right angle before shooting
-                                if ((IntakeandWristConstants.kShootAngle - 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 5)/360) {
-                                        this.IntakeOut();
-                                }
-                                else {
-                                        this.IntakeIdle();
-                                }
-                        },
-                        this);
-    }
-
-    public Command getIntakeInCommand() {
-        return new RunCommand(() ->
-                        { 
-                                this.IntakeIn();
+                            if ((IntakeandWristConstants.kShootAngle - 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 5)/360) {
+                                intakeMotor.set(-1);
+                            }
+                            else {
+                                intakeMotor.set(0.2);
+                            }
                         },
                         this);
     }

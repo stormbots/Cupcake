@@ -59,14 +59,8 @@ public class Wrist extends SubsystemBase{
     }
 
     public CommandBase setWristTarget(double target) {
-        return this.runOnce(() -> {
+        return this.run(() -> {
             m_wristPIDController.setReference((target/360), CANSparkMax.ControlType.kSmartMotion);
         });
-    }
-
-    public Command getSetWristTargetCommand(double target) {
-        return new RunCommand(() ->
-                    this.setWristTarget(target), 
-                    this);
     }
 }
