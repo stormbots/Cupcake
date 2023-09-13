@@ -117,25 +117,30 @@ public final class Constants {
   public static final class IntakeandWristConstants {
     //intake
     public static final int kIntakeMotorCanId = 5;
-    public static int kIntakeCurrentLimitFree=20;
-    public static int kIntakeCurrentLimitStall=18;
+    public static int kIntakeCurrentLimitFree=15;
+    public static int kIntakeCurrentLimitStall=10;
     public static boolean kIntakeMotorInverted=false;
+    public static double kIntakeInSpeed=0.5;
+    public static double kIntakeOutSpeed=-1;
+    public static double kIntakeIdleSpeed=0.1;
+    public static double kIntakeRampRate=0.05;
 
     //wrist
     public static final int kWristMotorCanId = 6;
-    public static float kDeployAngle=0; 
-    public static float kStowAngle=125; 
+    public static float kDeployAngle=5; 
+    public static float kStowAngle=135; 
     public static float kShootAngle=70;
     public static double kConversionFactor= 360/((9/1)*(7/1));
-    public static int kWristCurrentLimitFree=25;
-    public static int kWristCurrentLimitStall=20;
-    public static boolean kWristMotorInverted=false;
-    public static double kAbsoluteAngleOffset=0.572;
-    public static double kP=1;
+    public static int kWristCurrentLimitFree=20;
+    public static int kWristCurrentLimitStall=18;
+    public static boolean kWristMotorInverted=true;
+    public static double kAbsoluteAngleOffset=0.55;
+    public static double kP=2;
     public static double kI=0;
     public static double kD=0;
     public static final double kWristMinOutput = -1;
     public static final double kWristMaxOutput = 1;
+    public static final double kWristRampRate = 0.25;
   }
 
   public static final class OIConstants {

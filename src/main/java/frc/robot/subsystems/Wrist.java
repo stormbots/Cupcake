@@ -36,12 +36,12 @@ public class Wrist extends SubsystemBase{
         wristMotor.setIdleMode(IdleMode.kBrake);
         wristMotor.setSmartCurrentLimit(IntakeandWristConstants.kWristCurrentLimitStall,IntakeandWristConstants.kWristCurrentLimitFree);
         wristMotor.setInverted(IntakeandWristConstants.kWristMotorInverted);
-        wristMotor.setSoftLimit(SoftLimitDirection.kForward, IntakeandWristConstants.kStowAngle); 
-        wristMotor.setSoftLimit(SoftLimitDirection.kReverse, IntakeandWristConstants.kDeployAngle); 
-        wristMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-        wristMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        wristMotor.setClosedLoopRampRate(0.15);
-        wristMotor.setOpenLoopRampRate(0.25);
+        //wristMotor.setSoftLimit(SoftLimitDirection.kForward, IntakeandWristConstants.kStowAngle); 
+        //wristMotor.setSoftLimit(SoftLimitDirection.kReverse, IntakeandWristConstants.kDeployAngle); 
+        //wristMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        //wristMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        wristMotor.setClosedLoopRampRate(IntakeandWristConstants.kWristRampRate);
+        wristMotor.setOpenLoopRampRate(IntakeandWristConstants.kWristRampRate);
 
         m_wristPIDController.setP(IntakeandWristConstants.kP);
         m_wristPIDController.setI(IntakeandWristConstants.kI);
@@ -56,11 +56,12 @@ public class Wrist extends SubsystemBase{
         SmartDashboard.putNumber("Wrist Angle", m_wristAbsoluteEncoder.getPosition()); //might need to multply by 360 to make it degrees
         SmartDashboard.putNumber("Wrist Output", wristMotor.getAppliedOutput());
         SmartDashboard.putNumber("Wrist Velocity", m_wristAbsoluteEncoder.getVelocity());
+        SmartDashboard.putNumber("Wrist Current", wristMotor.getOutputCurrent());
     }
 
     public CommandBase setWristTarget(double target) {
         return this.run(() -> {
-            m_wristPIDController.setReference((target/360), CANSparkMax.ControlType.kSmartMotion);
+            m_wristPIDController.setReference((target/360), CANSparkMax.ControlType.kPosition);
         });
     }
 }

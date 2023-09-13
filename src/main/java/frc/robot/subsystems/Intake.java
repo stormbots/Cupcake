@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeandWristConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Intake extends SubsystemBase {
@@ -20,26 +21,31 @@ public class Intake extends SubsystemBase {
         intakeMotor.setInverted(IntakeandWristConstants.kIntakeMotorInverted);
         intakeMotor.setIdleMode(IdleMode.kBrake);
         intakeMotor.setSmartCurrentLimit(IntakeandWristConstants.kIntakeCurrentLimitStall, IntakeandWristConstants.kIntakeCurrentLimitFree);
-        intakeMotor.setOpenLoopRampRate(0.01);
+        intakeMotor.setOpenLoopRampRate(IntakeandWristConstants.kIntakeRampRate);
 
         intakeMotor.burnFlash();
     }
 
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Intake Current", intakeMotor.getOutputCurrent());
+    }
+
     public CommandBase IntakeIn() {
         return this.run(() -> {
-            intakeMotor.set(1);
+            intakeMotor.set(IntakeandWristConstants.kIntakeInSpeed);
         });
     }
 
     public CommandBase IntakeOut() {
         return this.run(() -> {
-            intakeMotor.set(-1);
+            intakeMotor.set(IntakeandWristConstants.kIntakeOutSpeed);
         });
     }
 
     public CommandBase IntakeIdle() {
         return this.run(() -> {
-            intakeMotor.set(0.2);
+            intakeMotor.set(IntakeandWristConstants.kIntakeIdleSpeed);
         });
     }
 
@@ -47,11 +53,11 @@ public class Intake extends SubsystemBase {
        return new RunCommand(() ->
                         { 
                                         //making sure the wrist is at the right angle before shooting
-                            if ((IntakeandWristConstants.kShootAngle - 5)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 5)/360) {
-                                intakeMotor.set(-1);
+                            if ((IntakeandWristConstants.kShootAngle - 10)/360 < wrist.m_wristAbsoluteEncoder.getPosition() && wrist.m_wristAbsoluteEncoder.getPosition() < (IntakeandWristConstants.kShootAngle + 10)/360) {
+                                intakeMotor.set(IntakeandWristConstants.kIntakeOutSpeed);
                             }
                             else {
-                                intakeMotor.set(0.2);
+                                intakeMotor.set(IntakeandWristConstants.kIntakeIdleSpeed);
                             }
                         },
                         this);

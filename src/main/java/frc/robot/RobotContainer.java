@@ -127,7 +127,7 @@ public class RobotContainer {
                                 m_robotDrive));
 
                                 //left trigger
-        new JoystickButton(m_driverController, 7)
+        new JoystickButton(m_driverController,3)
                 .whileTrue(
                         // The left stick controls translation of the robot.
                         // Turning is controlled by the X axis of the right stick.
@@ -154,13 +154,18 @@ public class RobotContainer {
 
                                 //intake in and wrist down         left bumper
         new JoystickButton(m_driverController, 5)
-                .whileTrue(
+                .onTrue(
                         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn())
+                );
+
+        new JoystickButton(m_driverController, 7)
+                .onTrue(
+                        new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kStowAngle), intake.IntakeIdle())
                 );
 
                 //shoot cube      right bumper
         new JoystickButton(m_driverController, 6)
-                .whileTrue(
+                .onTrue(
                         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kShootAngle), intake.getShootCubeCommand(wrist))
                 );
 
