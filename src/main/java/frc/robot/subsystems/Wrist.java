@@ -30,8 +30,8 @@ public class Wrist extends SubsystemBase{
         m_wristPIDController.setFeedbackDevice(m_wristAbsoluteEncoder);
 
         //might not need this just here for easy troubleshooting
-       // m_wristAbsoluteEncoder.setPositionConversionFactor(IntakeandWristConstants.kConversionFactor);
-       // m_wristAbsoluteEncoder.setVelocityConversionFactor(IntakeandWristConstants.kConversionFactor);
+        //m_wristAbsoluteEncoder.setPositionConversionFactor(IntakeandWristConstants.kConversionFactor);
+        //m_wristAbsoluteEncoder.setVelocityConversionFactor(IntakeandWristConstants.kConversionFactor);
 
         wristMotor.setIdleMode(IdleMode.kBrake);
         wristMotor.setSmartCurrentLimit(IntakeandWristConstants.kWristCurrentLimitStall,IntakeandWristConstants.kWristCurrentLimitFree);

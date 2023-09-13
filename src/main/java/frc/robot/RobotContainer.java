@@ -154,7 +154,7 @@ public class RobotContainer {
 
                                 //intake in and wrist down         left bumper
         new JoystickButton(m_driverController, 5)
-                .onTrue(
+                .whileTrue(
                         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn())
                 );
 
@@ -165,7 +165,7 @@ public class RobotContainer {
 
                 //shoot cube      right bumper
         new JoystickButton(m_driverController, 6)
-                .onTrue(
+                .whileTrue(
                         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kShootAngle), intake.getShootCubeCommand(wrist))
                 );
 

@@ -117,8 +117,8 @@ public final class Constants {
   public static final class IntakeandWristConstants {
     //intake
     public static final int kIntakeMotorCanId = 5;
-    public static int kIntakeCurrentLimitFree=15;
-    public static int kIntakeCurrentLimitStall=10;
+    public static int kIntakeCurrentLimitFree=20;
+    public static int kIntakeCurrentLimitStall=15;
     public static boolean kIntakeMotorInverted=false;
     public static double kIntakeInSpeed=0.5;
     public static double kIntakeOutSpeed=-1;
@@ -129,8 +129,8 @@ public final class Constants {
     public static final int kWristMotorCanId = 6;
     public static float kDeployAngle=5; 
     public static float kStowAngle=135; 
-    public static float kShootAngle=70;
-    public static double kConversionFactor= 360/((9/1)*(7/1));
+    public static float kShootAngle=80;
+    public static double kConversionFactor= (9/1)*(7/1);
     public static int kWristCurrentLimitFree=20;
     public static int kWristCurrentLimitStall=18;
     public static boolean kWristMotorInverted=true;
