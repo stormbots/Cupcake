@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+//import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
@@ -46,7 +46,7 @@ public class RobotContainer {
     public Wrist wrist = new Wrist();
 
     // The driver's controller
-    XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+    public XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
     //private SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(AutoConstants.kS, AutoConstants.kV, AutoConstants.kA);
 
     /**
@@ -62,12 +62,10 @@ public class RobotContainer {
                 new RunCommand(
                         () -> m_robotDrive.drive(
                                 -MathUtil.applyDeadband(
-                                        Math.pow(m_driverController.getLeftY(), 2)
-                                                * Math.signum(m_driverController.getLeftY()),
+                                        m_driverController.getLeftY(),
                                         OIConstants.kDriveDeadband), // squaring inputs to make robot more controllable
                                 -MathUtil.applyDeadband(
-                                        Math.pow(m_driverController.getLeftX(), 2)
-                                                * Math.signum(m_driverController.getLeftX()),
+                                        m_driverController.getLeftX(),
                                         OIConstants.kDriveDeadband),
                                 -MathUtil.applyDeadband(m_driverController.getLeftTriggerAxis(),
                                         OIConstants.kDriveDeadband),
@@ -78,7 +76,7 @@ public class RobotContainer {
                 wrist.setWristTarget(IntakeandWristConstants.kStowAngle));
 
         intake.setDefaultCommand(
-                new RunCommand( () -> intake.IntakeIdle(),
+                new RunCommand( () -> Intake.intakeMotor.set(IntakeandWristConstants.kIntakeInSpeed),
                 intake));
     }
     /**

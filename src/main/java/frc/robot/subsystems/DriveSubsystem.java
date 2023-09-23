@@ -158,6 +158,9 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
+
+    SmartDashboard.putNumber("Raw X Speed", xSpeed);
+    SmartDashboard.putNumber("Raw Y Speed", ySpeed);
     
     double xSpeedCommanded;
     double ySpeedCommanded;
@@ -167,12 +170,15 @@ public class DriveSubsystem extends SubsystemBase {
       double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
       double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
 
+      SmartDashboard.putNumber("Input Translation Dir", inputTranslationDir);
+      SmartDashboard.putNumber("Input Translation Mag", inputTranslationMag);
+
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
       double directionSlewRate;
       if (m_currentTranslationMag != 0.0) {
         directionSlewRate = Math.abs(DriveConstants.kDirectionSlewRate / m_currentTranslationMag);
       } else {
-        directionSlewRate = 500.0; //some high number that means the slew rate is effectively instantaneous
+        directionSlewRate = 1; //some high number that means the slew rate is effectively instantaneous
       }
       
 
@@ -203,6 +209,9 @@ public class DriveSubsystem extends SubsystemBase {
       ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
       m_currentRotation = m_rotLimiter.calculate(rot);
 
+      SmartDashboard.putNumber("Current Translation Dir", m_currentTranslationDir);
+      SmartDashboard.putNumber("Current Translation Mag", m_currentTranslationMag);
+
 
     } else {
       xSpeedCommanded = xSpeed;
@@ -210,10 +219,16 @@ public class DriveSubsystem extends SubsystemBase {
       m_currentRotation = rot;
     }
 
+    SmartDashboard.putNumber("X Speed Out", xSpeedCommanded);
+    SmartDashboard.putNumber("Y Speed Out", ySpeedCommanded);
+
     // Convert the commanded speeds into the correct units for the drivetrain
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
+
+    SmartDashboard.putNumber("X Speed Delivered", xSpeedDelivered);
+    SmartDashboard.putNumber("Y Speed Delivered", ySpeedDelivered);
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative

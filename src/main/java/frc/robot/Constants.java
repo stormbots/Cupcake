@@ -27,11 +27,11 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 4.2; //4.40
+    public static final double kMaxSpeedMetersPerSecond = 1; //4.40
     public static final double kMaxAngularSpeed = 1.25 * Math.PI; //1.5 // radians per second
 
-    public static final double kDirectionSlewRate = 2.2;//1.2 // radians per second
-    public static final double kMagnitudeSlewRate = 2; // percent per second (1 = 100%)
+    public static final double kDirectionSlewRate = 2.4;//1.2 // radians per second
+    public static final double kMagnitudeSlewRate = 2.5; // percent per second (1 = 100%)
     public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
     // Chassis configuration
@@ -110,20 +110,20 @@ public final class Constants {
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int kDrivingMotorCurrentLimit = 55; // amps
+    public static final int kDrivingMotorCurrentLimit = 30; // amps
     public static final int kTurningMotorCurrentLimit = 20; // amps
   }
 
   public static final class IntakeandWristConstants {
     //intake
     public static final int kIntakeMotorCanId = 5;
-    public static int kIntakeCurrentLimitFree=20;
+    public static int kIntakeCurrentLimitFree=25;
     public static int kIntakeCurrentLimitStall=15;
     public static boolean kIntakeMotorInverted=false;
     public static double kIntakeInSpeed=0.5;
     public static double kIntakeOutSpeed=-1;
     public static double kIntakeIdleSpeed=0.1;
-    public static double kIntakeRampRate=0.05;
+    public static double kIntakeRampRate=0;
 
     //wrist
     public static final int kWristMotorCanId = 6;
@@ -135,7 +135,7 @@ public final class Constants {
     public static int kWristCurrentLimitStall=18;
     public static boolean kWristMotorInverted=true;
     public static double kAbsoluteAngleOffset=0.55;
-    public static double kP=2;
+    public static double kP=1.5;
     public static double kI=0;
     public static double kD=0;
     public static final double kWristMinOutput = -1;
@@ -145,7 +145,7 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final double kDriveDeadband = 0.020;
+    public static final double kDriveDeadband = 0.050;
   }
 
   public static final class AutoConstants {
