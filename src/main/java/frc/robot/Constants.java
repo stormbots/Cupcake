@@ -27,7 +27,7 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 1; //4.40
+    public static final double kMaxSpeedMetersPerSecond = 2; //4.40
     public static final double kMaxAngularSpeed = 1.25 * Math.PI; //1.5 // radians per second
 
     public static final double kDirectionSlewRate = 2.4;//1.2 // radians per second
@@ -100,7 +100,7 @@ public final class Constants {
     public static final double kDrivingMinOutput = -1;
     public static final double kDrivingMaxOutput = 1;
 
-    public static final double kTurningP = 1.4;//1
+    public static final double kTurningP = 1.2;//1.4;//1
     public static final double kTurningI = 0;
     public static final double kTurningD = 0;
     public static final double kTurningFF = 0;
@@ -117,8 +117,8 @@ public final class Constants {
   public static final class IntakeandWristConstants {
     //intake
     public static final int kIntakeMotorCanId = 5;
-    public static int kIntakeCurrentLimitFree=25;
-    public static int kIntakeCurrentLimitStall=15;
+    public static int kIntakeCurrentLimitFree=20;
+    public static int kIntakeCurrentLimitStall=10;
     public static boolean kIntakeMotorInverted=false;
     public static double kIntakeInSpeed=0.5;
     public static double kIntakeOutSpeed=-1;
@@ -168,6 +168,6 @@ public final class Constants {
   }
 
   public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 4.650769230860   / ModuleConstants.kWheelCircumferenceMeters; //5676
+    public static final double kFreeSpeedRpm = 5676;//4.650769230860   / ModuleConstants.kWheelCircumferenceMeters;
   }
 }

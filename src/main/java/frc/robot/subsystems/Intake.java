@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -14,9 +15,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Intake extends SubsystemBase {
     
     public static CANSparkMax intakeMotor = new CANSparkMax(Constants.IntakeandWristConstants.kIntakeMotorCanId, MotorType.kBrushless);
+    private RelativeEncoder intakeEncoder;
 
     public Intake() {
         intakeMotor.restoreFactoryDefaults();
+        intakeEncoder = intakeMotor.getEncoder();
 
         intakeMotor.setInverted(IntakeandWristConstants.kIntakeMotorInverted);
         intakeMotor.setIdleMode(IdleMode.kBrake);
@@ -29,6 +32,8 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Intake Current", intakeMotor.getOutputCurrent());
+        SmartDashboard.putNumber("Intake Output", intakeMotor.getAppliedOutput());
+        SmartDashboard.putNumber("Intake Velocity", intakeEncoder.getVelocity());
     }
 
     public CommandBase IntakeIn() {

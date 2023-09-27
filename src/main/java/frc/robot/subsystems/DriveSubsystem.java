@@ -16,6 +16,7 @@ import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 //import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import com.kauailabs.navx.frc.AHRS;
@@ -147,6 +148,19 @@ public class DriveSubsystem extends SubsystemBase {
         pose);
   }
 
+  public CommandBase setfrontleftdrive() {
+    return this.run(() -> {
+      m_frontLeft.m_drivingSparkMax.set(0.5);
+
+    });
+  }
+  
+  public CommandBase setfrontrightdrive() {
+    return this.run(() -> {
+      m_frontRight.m_drivingSparkMax.set(0.5);
+
+    });
+  }
   /**
    * Method to drive the robot using joystick info.
    *
