@@ -166,11 +166,6 @@ public class RobotContainer {
                 .whileTrue(
                         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kShootAngle), intake.getShootCubeCommand(wrist))
                 );
-        
-        new JoystickButton(m_driverController, 4)
-                .whileTrue(
-                        new ParallelCommandGroup(m_robotDrive.setfrontleftdrive(), m_robotDrive.setfrontrightdrive())
-                );
     }
 
     /**

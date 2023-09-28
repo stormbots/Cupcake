@@ -147,20 +147,6 @@ public class DriveSubsystem extends SubsystemBase {
         },
         pose);
   }
-
-  public CommandBase setfrontleftdrive() {
-    return this.run(() -> {
-      m_frontLeft.m_drivingSparkMax.set(0.5);
-
-    });
-  }
-  
-  public CommandBase setfrontrightdrive() {
-    return this.run(() -> {
-      m_frontRight.m_drivingSparkMax.set(0.5);
-
-    });
-  }
   /**
    * Method to drive the robot using joystick info.
    *

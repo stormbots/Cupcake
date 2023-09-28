@@ -27,10 +27,10 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 2; //4.40
+    public static final double kMaxSpeedMetersPerSecond = 4; //4.40
     public static final double kMaxAngularSpeed = 1.25 * Math.PI; //1.5 // radians per second
 
-    public static final double kDirectionSlewRate = 2.4;//1.2 // radians per second
+    public static final double kDirectionSlewRate = 2.8;//1.2 // radians per second
     public static final double kMagnitudeSlewRate = 2.5; // percent per second (1 = 100%)
     public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
@@ -168,6 +168,6 @@ public final class Constants {
   }
 
   public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 5676;//4.650769230860   / ModuleConstants.kWheelCircumferenceMeters;
+    public static final double kFreeSpeedRpm = 3600;//4.650769230860   / ModuleConstants.kWheelCircumferenceMeters;
   }
 }
