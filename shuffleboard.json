@@ -426,7 +426,7 @@
               "Crosshair/Show crosshair": true,
               "Crosshair/Crosshair color": "#FFFFFFFF",
               "Controls/Show controls": true,
-              "Controls/Rotation": "NONE",
+              "Controls/Rotation": "HALF",
               "compression": -1.0,
               "fps": -1,
               "imageWidth": -1,
