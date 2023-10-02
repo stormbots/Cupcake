@@ -27,12 +27,12 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 5; //4.40
-    public static final double kMaxAngularSpeed = 1.25 * Math.PI; //1.5 // radians per second
+    public static final double kMaxSpeedMetersPerSecond = 4.4; //4.40
+    public static final double kMaxAngularSpeed = 1.5 * Math.PI; //1.5 // radians per second
 
-    public static final double kDirectionSlewRate = 2.8;//1.2 // radians per second
+    public static final double kDirectionSlewRate = 2.4;//1.2 // radians per second
     public static final double kMagnitudeSlewRate = 2.5; // percent per second (1 = 100%)
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 1.5; // percent per second (1 = 100%)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(20.5);
@@ -110,7 +110,7 @@ public final class Constants {
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int kDrivingMotorCurrentLimit = 30; // amps
+    public static final int kDrivingMotorCurrentLimit = 25; // amps
     public static final int kTurningMotorCurrentLimit = 20; // amps
   }
 
@@ -151,7 +151,7 @@ public final class Constants {
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 3;//3
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1;//3
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;//3
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
@@ -169,6 +169,6 @@ public final class Constants {
   }
 
   public static final class NeoMotorConstants {
-    public static final double kFreeSpeedRpm = 4.650769230860   / ModuleConstants.kWheelCircumferenceMeters * ModuleConstants.kDrivingMotorReduction * 60;
+    public static final double kFreeSpeedRpm = 3.75   / ModuleConstants.kWheelCircumferenceMeters * ModuleConstants.kDrivingMotorReduction * 60;
   }
 }

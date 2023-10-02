@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
 
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(320, 240);
-    camera.setFPS(15);
+    camera.setFPS(10);
 
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);

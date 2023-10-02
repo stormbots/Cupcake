@@ -156,13 +156,13 @@ public class RobotContainer {
 
                                 //intake in and wrist down         left bumper
         //new JoystickButton(m_driverController, 5)
-        operator.button(0)
+        operator.button(1)
                 .whileTrue(
                         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn())
                 );
 
         //new JoystickButton(m_driverController, 7)
-        operator.button(1)
+        operator.button(3)
                 .onTrue(
                         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kStowAngle), intake.IntakeIdle())
                 );
@@ -195,7 +195,7 @@ public class RobotContainer {
         // Pass through these two interior waypoints, making an 's' curve path
         List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3,0, new Rotation2d(90)),
+        new Pose2d(3,0, new Rotation2d(0)),
         config);
 
 
@@ -213,7 +213,7 @@ public class RobotContainer {
             // Pass through these two interior waypoints, making an 's' curve path
             List.of(),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(1,0, new Rotation2d(0)),
+            new Pose2d(4,0, new Rotation2d(0)),
             config);
 
         var thetaController = new ProfiledPIDController(
@@ -223,7 +223,7 @@ public class RobotContainer {
 
         SwerveControllerCommand swerveControllerCommand = new
         SwerveControllerCommand(
-        testtrajectory,
+        oneMeterTrajectory,
         m_robotDrive::getPose, // Functional interface to feed supplier
         DriveConstants.kDriveKinematics,
 
@@ -235,7 +235,8 @@ public class RobotContainer {
         m_robotDrive);
 
         // // Reset odometry to the starting pose of the trajectory.
-        m_robotDrive.resetOdometry(CubeDrop.getInitialPose());
+        m_robotDrive.resetOdometry(oneMeterTrajectory.getInitialPose());
+        m_robotDrive.m_gyro.reset();
 
         // This will load the file "Example Path.path" and generate it with a max
         // velocity of 4 m/s and a max acceleration of 3 m/s^2
