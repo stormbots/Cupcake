@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,8 +31,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  String trajectoryJSON = "paths/output/TestPathweaver.wpilib.json";
-  Trajectory testtrajectory = new Trajectory();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -48,12 +47,8 @@ public class Robot extends TimedRobot {
     camera.setResolution(320, 240);
     camera.setFPS(10);
 
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      testtrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-    }
+    m_robotContainer.m_robotDrive.m_gyro.reset();
+    m_robotContainer.m_robotDrive.m_gyro.setAngleAdjustment(0);
 
   }
 
@@ -83,7 +78,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.configureAutos();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",

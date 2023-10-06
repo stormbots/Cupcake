@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.time.Instant;
 import java.util.List;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 //import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,9 +19,14 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -29,8 +36,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.IntakeandWristConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Wrist;
@@ -44,7 +51,7 @@ import frc.robot.subsystems.Wrist;
 public class RobotContainer {
 
     // The robot's subsystems
-    private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+    public final DriveSubsystem m_robotDrive = new DriveSubsystem();
     public Intake intake = new Intake();
     public Wrist wrist = new Wrist();
 
@@ -52,6 +59,10 @@ public class RobotContainer {
     public XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
     private final CommandJoystick operator = new CommandJoystick(OIConstants.kOperatorControllerPort);
     //private SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(AutoConstants.kS, AutoConstants.kV, AutoConstants.kA);
+    String trajectoryJSON = "paths/output/TestPathweaver.wpilib.json";
+    Trajectory testtrajectory = new Trajectory();
+    //Command for autos
+    SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -82,6 +93,13 @@ public class RobotContainer {
         intake.setDefaultCommand(
                 new RunCommand( () -> Intake.intakeMotor.set(IntakeandWristConstants.kIntakeIdleSpeed),
                 intake));
+
+        try {
+                Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+                testtrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+              } catch (IOException ex) {
+                DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+              }
     }
     /**
      * Use this method to define your button->command mappings. Buttons can be
@@ -92,6 +110,7 @@ public class RobotContainer {
      * passing it to a
      * {@link JoystickButton}.
      */
+
     private void configureButtonBindings() {
                 //X button
         new JoystickButton(m_driverController, 1)
@@ -105,28 +124,28 @@ public class RobotContainer {
                         () -> m_robotDrive.zeroHeading(),
                         m_robotDrive));
 
-                        //right trigger
-        new JoystickButton(m_driverController, 8)
-                .whileTrue(
-                        // The left stick controls translation of the robot.
-                        // Turning is controlled by the X axis of the right stick.
+                        //right trigger, robot cent
+        // new JoystickButton(m_driverController, 8)
+        //         .whileTrue(
+        //                 // The left stick controls translation of the robot.
+        //                 // Turning is controlled by the X axis of the right stick.
 
-                        //robot relative
-                        new RunCommand(
-                                () -> m_robotDrive.drive(
-                                        -MathUtil.applyDeadband(
-                                                Math.pow(m_driverController.getLeftY(), 2)
-                                                        * Math.signum(m_driverController.getLeftY()),
-                                                OIConstants.kDriveDeadband), // squaring inputs to make robot more
-                                                                             // controllable
-                                        -MathUtil.applyDeadband(
-                                                Math.pow(m_driverController.getLeftX(), 2)
-                                                        * Math.signum(m_driverController.getLeftX()),
-                                                OIConstants.kDriveDeadband),
-                                        -MathUtil.applyDeadband(m_driverController.getLeftTriggerAxis(),
-                                                OIConstants.kDriveDeadband),
-                                        false, true),
-                                m_robotDrive));
+        //                 //robot relative
+        //                 new RunCommand(
+        //                         () -> m_robotDrive.drive(
+        //                                 -MathUtil.applyDeadband(
+        //                                         Math.pow(m_driverController.getLeftY(), 2)
+        //                                                 * Math.signum(m_driverController.getLeftY()),
+        //                                         OIConstants.kDriveDeadband), // squaring inputs to make robot more
+        //                                                                      // controllable
+        //                                 -MathUtil.applyDeadband(
+        //                                         Math.pow(m_driverController.getLeftX(), 2)
+        //                                                 * Math.signum(m_driverController.getLeftX()),
+        //                                         OIConstants.kDriveDeadband),
+        //                                 -MathUtil.applyDeadband(m_driverController.getLeftTriggerAxis(),
+        //                                         OIConstants.kDriveDeadband),
+        //                                 false, true),
+        //                         m_robotDrive));
 
                                 //left trigger
         new JoystickButton(m_driverController,3)
@@ -175,12 +194,39 @@ public class RobotContainer {
                 );
     }
 
+    public Command configureAutos() {
+        m_robotDrive.m_gyro.reset();
+        m_robotDrive.m_gyro.setAngleAdjustment(180);
+        return new InstantCommand()
+        .andThen(
+                new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIdle()).withTimeout(1)
+        )
+        .andThen(
+                new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn()).withTimeout(2)
+        )
+        .andThen(
+                new RunCommand(()->m_robotDrive.drive(0.1, 0, 0, true, false), m_robotDrive).withTimeout(3)
+        )
+        .andThen(
+                new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn()).withTimeout(2)
+        )
+        //go backwards
+        .andThen(new InstantCommand(()->{}))
+        ;
+
+
+
+
+    }
+
+
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
+    public Command oldconfigautos() {
         // Create config for trajectory
         TrajectoryConfig config = new TrajectoryConfig(
         AutoConstants.kMaxSpeedMetersPerSecond,
@@ -207,7 +253,7 @@ public class RobotContainer {
         config);
 
 
-        Trajectory oneMeterTrajectory = TrajectoryGenerator.generateTrajectory(
+        Trajectory fourMeterTrajectory = TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
@@ -223,7 +269,7 @@ public class RobotContainer {
 
         SwerveControllerCommand swerveControllerCommand = new
         SwerveControllerCommand(
-        oneMeterTrajectory,
+        fourMeterTrajectory,
         m_robotDrive::getPose, // Functional interface to feed supplier
         DriveConstants.kDriveKinematics,
 
@@ -235,13 +281,14 @@ public class RobotContainer {
         m_robotDrive);
 
         // // Reset odometry to the starting pose of the trajectory.
-        m_robotDrive.resetOdometry(oneMeterTrajectory.getInitialPose());
-        m_robotDrive.m_gyro.reset();
+        m_robotDrive.resetOdometry(fourMeterTrajectory.getInitialPose());
 
         // This will load the file "Example Path.path" and generate it with a max
         // velocity of 4 m/s and a max acceleration of 3 m/s^2
         // // Run path following command, then stop at the end
         return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, true, true));
         // }
+        // autoChooser.addOption("Mobility", new InstantCommand());
+        // SmartDashboard.putData("autos/Auto Chooser", autoChooser);
     }
 }
