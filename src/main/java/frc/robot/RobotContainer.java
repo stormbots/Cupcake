@@ -197,24 +197,47 @@ public class RobotContainer {
     public Command configureAutos() {
         m_robotDrive.m_gyro.reset();
         m_robotDrive.m_gyro.setAngleAdjustment(180);
+        // This auto does drop cube, drive backwards, past line (confirm in match 7; too short was result, match 11 bumped to 3.5)
         return new InstantCommand()
         .andThen(
                 new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIdle()).withTimeout(1)
         )
         .andThen(
-                new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn()).withTimeout(2)
+                new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeOut()).withTimeout(2)
         )
         .andThen(
-                new RunCommand(()->m_robotDrive.drive(0.1, 0, 0, true, false), m_robotDrive).withTimeout(3)
+                new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kStowAngle), intake.IntakeOut()).withTimeout(1)
         )
+        .andThen(
+                new RunCommand(()->m_robotDrive.drive(0.3, 0, 0, true, false), m_robotDrive).withTimeout(2.5) //Should be enough?
+        )
+        
         .andThen(
                 new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIn()).withTimeout(2)
         )
+        // .andThen( //Didn't work as expected, rubbed on the wall
+        //         new RunCommand(()->m_robotDrive.drive(0, 0, 0.3, true, false), m_robotDrive).withTimeout(3) //Hopefully 3 seconds is enough
+        // )
         //go backwards
         .andThen(new InstantCommand(()->{}))
         ;
-
-
+        //Make another auto that might pick up second cube
+        // return new InstantCommand()
+        // .andThen(
+        //         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeIdle()).withTimeout(1)
+        // )
+        // .andThen(
+        //         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kDeployAngle), intake.IntakeOut()).withTimeout(2)
+        // )
+        // .andThen(
+        //         new ParallelCommandGroup(wrist.setWristTarget(IntakeandWristConstants.kStowAngle), intake.IntakeOut()).withTimeout(1)
+        // )
+        // .andThen(
+        //         new RunCommand(()->m_robotDrive.drive(0.3, 0, 0, true, false), m_robotDrive).withTimeout(5) //Note untested, but 
+        // )
+        // .andThen( 
+        //         new RunCommand(()->m_robotDrive.drive(0,0,0.3,true, false), m_robotDrive).withTimeout(3) // Tested, did rotate, 3 second maybe enough?
+        // )
 
 
     }

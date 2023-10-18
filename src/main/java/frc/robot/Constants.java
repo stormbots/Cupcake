@@ -121,7 +121,7 @@ public final class Constants {
     public static int kIntakeCurrentLimitStall=10;
     public static boolean kIntakeMotorInverted=false;
     public static double kIntakeInSpeed=0.5;
-    public static double kIntakeOutSpeed=-1;
+    public static double kIntakeOutSpeed=-0.25;
     public static double kIntakeIdleSpeed=0.1;
     public static double kIntakeRampRate=0;
 
@@ -129,7 +129,7 @@ public final class Constants {
     public static final int kWristMotorCanId = 6;
     public static float kDeployAngle=5; 
     public static float kStowAngle=135; 
-    public static float kShootAngle=80;
+    public static float kShootAngle=40;
     public static double kConversionFactor= (9/1)*(7/1);
     public static int kWristCurrentLimitFree=20;
     public static int kWristCurrentLimitStall=18;
