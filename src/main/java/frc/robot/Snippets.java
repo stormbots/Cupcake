@@ -25,23 +25,10 @@ public class Snippets {
     this.chassis = chassis;
   }
 
-
-  public enum CommandSelect{
-    exampleSnippet
-  }
-
-  public Command commandBuilder(CommandSelect commandSnippet){
-    switch(commandSnippet){
-      case exampleSnippet:
-      return new InstantCommand()
-      .andThen(new RunCommand(()->chassis.testMotor.set(0.1)).withTimeout(5))
-      .andThen(new InstantCommand())
-      ;
-    }
-
-    //Does nothing due to switch case
+  public Command getCommandExample(){
     return new InstantCommand();
   }
+
 
   // autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
 
