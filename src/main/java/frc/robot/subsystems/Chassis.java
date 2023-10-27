@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -59,7 +60,16 @@ public class Chassis extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   // Odometry class for tracking robot pose
-  SwerveDriveOdometry odometry = new SwerveDriveOdometry(
+  SwerveDriveOdometry odometry;
+
+  public Chassis() {
+    if(m_gyro.isConnected()){
+      while(m_gyro.isCalibrating());
+    }
+    m_gyro.reset();
+    m_gyro.setAngleAdjustment(0);
+    SmartDashboard.putData(m_field); 
+    odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       m_gyro.getRotation2d(),
       new SwerveModulePosition[] {
@@ -68,10 +78,6 @@ public class Chassis extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
       });
-
-  public Chassis() {
-    m_gyro.reset();
-    SmartDashboard.putData(m_field);
   }
 
   @Override
@@ -88,7 +94,8 @@ public class Chassis extends SubsystemBase {
         });
 
     m_field.setRobotPose(odometry.getPoseMeters());
-    SmartDashboard.putNumber("/angle/navx", m_gyro.getAngle());
+    SmartDashboard.putNumber("/angle/rawnavx", m_gyro.getAngle());
+    SmartDashboard.putNumber("/angle/navxproccessed", m_gyro.getRotation2d().getDegrees());
     SmartDashboard.putNumber("/angle/frmotor", m_frontRight.getState().angle.getDegrees());
     SmartDashboard.putNumber("/angle/flmotor", m_frontLeft.getState().angle.getDegrees());
     SmartDashboard.putNumber("/angle/brmotor", m_rearRight.getState().angle.getDegrees());
