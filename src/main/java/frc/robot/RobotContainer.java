@@ -34,7 +34,7 @@ public class RobotContainer {
 
       Snippets snippets = new Snippets(operator, driver, chassis);
       OperatorInterface operatorSubsystem = new OperatorInterface(operator, driver, snippets);
-      AutoManager autosSubsystem = new AutoManager(snippets);
+      AutoManager autosSubsystem = new AutoManager(snippets, chassis);
 
 
 
@@ -45,7 +45,7 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> chassis.drive(
-                -MathUtil.applyDeadband( -driver.getRawAxis(1), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(driver.getRawAxis(1), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(driver.getRawAxis(0), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(driver.getRawAxis(2), OIConstants.kDriveDeadband),
                 true, true),

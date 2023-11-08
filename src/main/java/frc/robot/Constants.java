@@ -4,10 +4,14 @@
 
 package frc.robot;
 
+import javax.naming.ConfigurationException;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
@@ -119,24 +123,40 @@ public final class Constants {
     public static final double kDriveDeadband = 0.05;
   }
 
-  // public static final class AutoConstants {
-  //   public static final double kMaxSpeedMetersPerSecond = 3;
-  //   public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-  //   public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-  //   public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+  public static final class AutoConstants {
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
+    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
   //   // Unused, from original template
-  //   public static final double kPXController = 1;
-  //   public static final double kPYController = 1;
-  //   public static final double kPThetaController = 1;
+    public static final double kPXController = 1;
+    public static final double kPYController = 1;
+    public static final double kPThetaController = 1;
 
   //   // Constraint for the motion profiled robot angle controller
-  //   public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
-  //       kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-
-  // }
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
+        kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+  }
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
+  }
+
+  public static TrajectoryConfig getTrajectoryConfig(){
+    return new TrajectoryConfig(
+      AutoConstants.kMaxSpeedMetersPerSecond,
+      AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+      .setKinematics(DriveConstants.kDriveKinematics);
+  }
+
+  public static ProfiledPIDController getPIDController(){
+    ProfiledPIDController thetaController = new ProfiledPIDController(
+      AutoConstants.kPThetaController, 0, 0,
+      AutoConstants.kThetaControllerConstraints);
+
+      thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+      return thetaController;
   }
 }
