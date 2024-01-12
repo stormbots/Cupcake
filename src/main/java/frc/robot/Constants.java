@@ -145,8 +145,8 @@ public final class Constants {
 
   public static TrajectoryConfig getTrajectoryConfig(){
     return new TrajectoryConfig(
-      AutoConstants.kMaxSpeedMetersPerSecond,
-      AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+      AutoConstants.kMaxSpeedMetersPerSecond*.8,
+      AutoConstants.kMaxAccelerationMetersPerSecondSquared*.8)
       .setKinematics(DriveConstants.kDriveKinematics);
   }
 
